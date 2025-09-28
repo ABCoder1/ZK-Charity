@@ -2,13 +2,12 @@ pragma language_version >= 0.16 && <= 0.17;
 
 import CompactStandardLibrary;
 
-// This is a placeholder for a Midnight Network Smart Contract.
-// The language and syntax would be specific to Midnight (e.g., based on TypeScript or a custom language).
+witness localSecretKey(): Bytes<32>;
 
 // --- Contract State ---
 // A mapping from a donation commitment hash to a boolean indicating it has been recorded.
 // This prevents double-spending or replaying proofs.
-state commitmentHashes: Map<string, boolean>;
+export ledger commitmentHashes: Map<Bytes<32>, Boolean>;
 
 // --- Functions ---
 
@@ -20,18 +19,15 @@ The frontend would generate this hash from the donor's secret and amount.
 
 @param commitment The public hash of the donation details.
 */
-function makeDonation(commitment: string): void {
-// Ensure the commitment hasn't been used before
-if (commitmentHashes.has(commitment)) {
-throw new Error("Commitment already exists.");
+export circuit makeDonation(commitment: Bytes<32>): Bytes<32> {
+    // Ensure the commitment hasn't been used before
+    assert(commitmentHashes.lookup(commitment) == false, "Commitment already exists.");
+    // Store the commitment on-chain
+    commitmentHashes.insert(commitment, true);
+    // Disclose the commitment on-chain
+    return commitment;
 }
 
-// Store the commitment on-chain
-commitmentHashes.set(commitment, true);
-
-// Emit an event that a new donation commitment has been made
-emit DonationCommitted(commitment);
-}
 
 /**
 
@@ -49,14 +45,14 @@ This function would be a pre-compile provided by the Midnight network.
 
 @returns A boolean indicating if the proof is valid.
 */
-function verifyProof(verificationKey: object, publicSignals: string[], proof: object): boolean {
-// The Midnight runtime would handle the complex cryptographic verification
-const isValid = midnight.verifyGroth16(verificationKey, publicSignals, proof);
+// export circuit verifyProof(verificationKey: object, publicSignals: Bytes<32>, proof: object): [Boolean] {
+//     // The Midnight runtime would handle the complex cryptographic verification
+//     const isValid = midnight.verifyGroth16(verificationKey, publicSignals, proof);
 
-if (isValid) {
-// Optionally emit an event upon successful verification
-emit ProofVerified(publicSignals[0]);
-}
+//     if (isValid) {
+//         // Optionally emit an event upon successful verification
+//         // emit ProofVerified(publicSignals[0]);
+//     }
 
-return isValid;
-}
+//     return isValid;
+// }
