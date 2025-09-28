@@ -1,5 +1,6 @@
-/* If you are not using Tailwind CSS, remove these lines. 
-   If you are using Tailwind, ensure your build tool (e.g., PostCSS) is configured to process Tailwind directives. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Define base styles for the body for a consistent look. */
 @layer base {
