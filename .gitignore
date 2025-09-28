@@ -7,15 +7,6 @@ build/
 .out/
 .vite/
 
-ZK circuit build artifacts
-circuits/build/
-circuits/.r1cs
-circuits/.sym
-circuits/.wasm
-circuits/.zkey
-circuits/pot*.ptau
-circuits/verification_key.json
-
 Logs
 npm-debug.log*
 yarn-debug.log*

@@ -1,7 +1,57 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* If you are not using Tailwind CSS, remove these lines. 
+   If you are using Tailwind, ensure your build tool (e.g., PostCSS) is configured to process Tailwind directives. */
 
-body {
-  background-color: #f0f4f8;
+/* Define base styles for the body for a consistent look. */
+@layer base {
+  body {
+    @apply bg-slate-900 text-slate-200 antialiased;
+  }
+}
+
+/* Create the animated background with an image and gradient. */
+.main-background {
+  position: relative;
+  overflow: hidden;
+  /* Add a subtle, dark space-themed background image */
+  background-image: linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+/* The rotating conic gradient that sits on top of the image */
+.main-background::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  padding-bottom: 150%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    #1e293b, /* slate-800 */
+    #4c1d95, /* violet-900 */
+    #be185d, /* fuchsia-700 */
+    #1e293b  /* slate-800 */
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0.15;
+  filter: blur(120px);
+  animation: rotate-gradient 30s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotate-gradient {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Ensure all app content appears above the background effects */
+.main-content {
+  position: relative;
+  z-index: 1;
 }

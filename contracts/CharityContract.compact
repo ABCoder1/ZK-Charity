@@ -1,3 +1,7 @@
+pragma language_version >= 0.16 && <= 0.17;
+
+import CompactStandardLibrary;
+
 // This is a placeholder for a Midnight Network Smart Contract.
 // The language and syntax would be specific to Midnight (e.g., based on TypeScript or a custom language).
 
